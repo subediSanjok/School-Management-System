@@ -1,0 +1,10 @@
+import React from 'react'
+
+export function MultiLevel31Page() {
+  return (
+    <div style={{padding:20}}>
+      <h2>Multi Level31</h2>
+      <p>This is a placeholder page for the route '/menu/changelog/multi-level-1/multi-level-2/multi-level-2-2/multi-level-3-1'. No CRUD schema is defined yet.</p>
+    </div>
+  )
+}

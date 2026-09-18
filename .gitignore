@@ -1,0 +1,22 @@
+# Node
+node_modules/
+dist/
+build/
+.vite/
+.env
+.env.local
+
+# Java
+*.class
+target/
+.mvn/wrapper/maven-wrapper.jar
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# OS
+Thumbs.db
+Desktop.ini
+

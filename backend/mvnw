@@ -1,0 +1,17 @@
+#!/bin/sh
+
+BASEDIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+WRAPPER_JAR="$BASEDIR/.mvn/wrapper/maven-wrapper.jar"
+
+if [ -f "$WRAPPER_JAR" ]; then
+  exec java ${JAVA_OPTS:-} -Dmaven.multiModuleProjectDirectory="$BASEDIR" -classpath "$WRAPPER_JAR" org.apache.maven.wrapper.MavenWrapperMain "$@"
+fi
+
+echo "Maven Wrapper jar was not found at:"
+echo "  $WRAPPER_JAR"
+echo
+echo "This project needs Maven installed locally or the wrapper jar generated."
+echo "If Maven is installed, run: mvn -N wrapper:wrapper"
+echo "then retry: ./mvnw spring-boot:run"
+exit 1
+
