@@ -31,16 +31,21 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        Optional<UserEntity> userOpt = userRepository.findByUsername(request.username());
-        if (userOpt.isEmpty()) userOpt = userRepository.findByEmail(request.username());
-        if (userOpt.isEmpty()) {
-            return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
+        try {
+            Optional<UserEntity> userOpt = userRepository.findByUsername(request.username());
+            if (userOpt.isEmpty()) userOpt = userRepository.findByEmail(request.username());
+            if (userOpt.isEmpty()) {
+                return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
+            }
+            UserEntity user = userOpt.get();
+            if (!passwordEncoder.matches(request.password(), user.getPassword())) {
+                return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
+            }
+            String token = jwtUtil.generateToken(user.getUsername(), user.getRole());
+            return ResponseEntity.ok(new LoginResponse(token, user.getUsername(), user.getRole()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(Map.of("error", e.getClass().getName() + ": " + e.getMessage()));
         }
-        UserEntity user = userOpt.get();
-        if (!passwordEncoder.matches(request.password(), user.getPassword())) {
-            return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
-        }
-        String token = jwtUtil.generateToken(user.getUsername(), user.getRole());
-        return ResponseEntity.ok(new LoginResponse(token, user.getUsername(), user.getRole()));
     }
 }

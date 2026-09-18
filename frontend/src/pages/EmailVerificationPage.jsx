@@ -8,7 +8,7 @@ export function EmailVerificationPage() {
   const resend = async () => {
     setMessage(null)
     try {
-      const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080') + '/api/auth/resend-verification', { method: 'POST' })
+      const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081') + '/api/auth/resend-verification', { method: 'POST' })
       setMessage(res.ok ? 'Verification email sent' : 'Could not resend')
     } catch (err) { setMessage('Network error') }
   }

@@ -10,7 +10,7 @@ export function ForgotPasswordPage() {
     e.preventDefault()
     setMessage(null)
     try {
-      const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080') + '/api/auth/forgot-password', {
+      const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081') + '/api/auth/forgot-password', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email })
       })
       if (res.ok) setMessage('If the address exists you will receive reset instructions.')

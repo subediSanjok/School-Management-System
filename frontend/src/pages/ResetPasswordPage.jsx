@@ -14,7 +14,7 @@ export function ResetPasswordPage() {
     e.preventDefault(); setMessage(null)
     if (password !== confirm) { setMessage('Passwords must match'); return }
     try {
-      const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080') + '/api/auth/reset-password', {
+      const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081') + '/api/auth/reset-password', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token, password })
       })
       if (res.ok) setMessage('Password reset successfully')

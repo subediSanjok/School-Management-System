@@ -100,18 +100,28 @@ public class DataSeeder {
                         new NoticeEntity("Holiday notice", "All", "Draft")));
             }
 
-            // Seed initial users
-            if (userRepository.count() == 0) {
-                String adminPass = passwordEncoder.encode("adminpass");
-                String teacherPass = passwordEncoder.encode("teacherpass");
-                String studentPass = passwordEncoder.encode("studentpass");
-                String parentPass = passwordEncoder.encode("parentpass");
+            // Seed standard demo users matching README credentials
+            java.util.List<UserEntity> defaultUsers = List.of(
+                    new UserEntity("U-1", "admin", "admin@school.com", passwordEncoder.encode("admin123"), "ADMIN", "Active"),
+                    new UserEntity("U-2", "teacher", "teacher@school.com", passwordEncoder.encode("teacher123"), "TEACHER", "Active"),
+                    new UserEntity("U-3", "student", "student@school.com", passwordEncoder.encode("student123"), "STUDENT", "Active"),
+                    new UserEntity("U-4", "parent", "parent@school.com", passwordEncoder.encode("parentpass"), "PARENT", "Active"),
+                    new UserEntity("U-5", "mira", "mira@example.com", passwordEncoder.encode("teacherpass"), "TEACHER", "Active"),
+                    new UserEntity("U-6", "aarav", "aarav@example.com", passwordEncoder.encode("studentpass"), "STUDENT", "Active"),
+                    new UserEntity("U-7", "anil", "anil@example.com", passwordEncoder.encode("parentpass"), "PARENT", "Active")
+            );
 
-                userRepository.saveAll(List.of(
-                        new UserEntity("U-1", "admin", "admin@school.local", adminPass, "ADMIN", "Active"),
-                        new UserEntity("U-2", "mira", "mira@example.com", teacherPass, "TEACHER", "Active"),
-                        new UserEntity("U-3", "aarav", "aarav@example.com", studentPass, "STUDENT", "Active"),
-                        new UserEntity("U-4", "anil", "anil@example.com", parentPass, "PARENT", "Active")));
+            for (UserEntity u : defaultUsers) {
+                userRepository.findByUsername(u.getUsername()).ifPresentOrElse(
+                        existing -> {
+                            existing.setEmail(u.getEmail());
+                            existing.setPassword(u.getPassword());
+                            existing.setRole(u.getRole());
+                            existing.setStatus(u.getStatus());
+                            userRepository.save(existing);
+                        },
+                        () -> userRepository.save(u)
+                );
             }
         };
     }

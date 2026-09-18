@@ -16,7 +16,7 @@ export function RegisterPage() {
     if (password !== confirm) { setMessage('Passwords do not match'); return }
     try {
       // Try to call backend register if exists
-      const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080') + '/api/auth/register', {
+      const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081') + '/api/auth/register', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, email, password }),
       })
